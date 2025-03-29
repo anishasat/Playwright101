@@ -17,7 +17,7 @@ cacheDirectories:
 testDiscovery:
   type: raw
   mode: dynamic
-  command: grep -lr 'describe' *.test.ts
+  command: grep -lr 'describe' *.tests.ts
 testRunnerCommand: npm test -- $test
 
 jobLabel: [playwright-JestJS, win, autosplit]
