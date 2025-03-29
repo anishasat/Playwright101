@@ -10,8 +10,8 @@ const capabilities = {
         platform: "Windows 10",
         build: "SC02_Drag_And_Drop_Slider_Parameterized_Playwright_TS",
         name: "Scenario 02",
-        user: "anishasingh1569",
-        accessKey: "LT_9jtTni3I3o43OrGorsEapf1OQC8aYjYTrCQMBrO4tK4zTv8",
+        user: "anishasingh1569",  // Your LambdaTest username
+        accessKey: "LT_9jtTni3I3o43OrGorsEapf1OQC8aYjYTrCQMBrO4tK4zTv8",  // Your LambdaTest access key
         network: true,
         video: true,
         console: true,
@@ -34,9 +34,11 @@ test.describe('Drag and drop sliders: ', async () => {
             capabilities['LT:Options'].platform = os;
             capabilities['LT:Options'].name = test.info().title;
             
-            // Connect to lambdatest and launch the browser
-            const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=
-            ${encodeURIComponent(JSON.stringify(capabilities))}`);
+            // ✅ Correct WebSocket Endpoint for LambdaTest
+            const wsEndpoint = `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`;
+
+            // Connect to LambdaTest and launch the browser
+            const browser = await chromium.connect(wsEndpoint);
             const context = await browser.newContext();
             const page = await context.newPage();
 

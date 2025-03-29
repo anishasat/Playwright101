@@ -19,7 +19,7 @@ const capabilities = {
     },
 };
 
-test.describe('Submit form input : ', async () => {
+test.describe('Submit form input:', async () => {
     // Browser OS combinations
     const browsers = [
         { bName: "pw-chromium", bVersion: "132.0", os: "Windows 10" },
@@ -34,9 +34,11 @@ test.describe('Submit form input : ', async () => {
             capabilities['LT:Options'].platform = os;
             capabilities['LT:Options'].name = test.info().title;
 
-            // Connect to lambdatest and launch the browser
-            const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=
-            ${encodeURIComponent(JSON.stringify(capabilities))}`);
+            // ✅ Correct WebSocket Endpoint for LambdaTest
+            const wsEndpoint = `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`;
+
+            // Connect to LambdaTest and launch the browser
+            const browser = await chromium.connect(wsEndpoint);
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -50,10 +52,10 @@ test.describe('Submit form input : ', async () => {
             await page.click("//button[@type='submit' and text()='Submit']");
 
             // Locate the name field
-            const nameField: any = page.locator("#name");
+            const nameField = page.locator("#name");
 
             // Retrieve the validation message
-            const validationMessage: string = await nameField.evaluate((el: { validationMessage: any; }) => el.validationMessage);
+            const validationMessage = await nameField.evaluate((el: HTMLInputElement) => el.validationMessage);
             const expectedErrorMessage = "Please fill out this field.";
 
             // Assert validation message for the name field
@@ -80,9 +82,9 @@ test.describe('Submit form input : ', async () => {
             await page.waitForTimeout(1000);
 
             // Validate the success message
-            const successMessage = await page.locator(".success-msg.hidden").textContent();
+            const successMessage = await page.locator(".success-msg").textContent();
             const expectedMessage = "Thanks for contacting us, we will get back to you shortly.";
-            expect(successMessage, `Wrong success message "${successMessage}"`).toBe(expectedMessage);
+            expect(successMessage?.trim(), `Wrong success message "${successMessage}"`).toBe(expectedMessage);
 
             await page.close();
             await context.close();

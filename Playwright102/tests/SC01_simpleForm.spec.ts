@@ -10,8 +10,8 @@ const capabilities = {
         platform: "Windows 10",
         build: "SC01_Simple_Form_Demo_Parameterized_Playwright_TS",
         name: "Scenario 01",
-        user: "anishasingh1569",
-        accessKey: "LT_9jtTni3I3o43OrGorsEapf1OQC8aYjYTrCQMBrO4tK4zTv8",
+        user: "anishasingh1569",  // Your LambdaTest username
+        accessKey: "LT_9jtTni3I3o43OrGorsEapf1OQC8aYjYTrCQMBrO4tK4zTv8",  // Your LambdaTest access key
         network: true,
         video: true,
         console: true,
@@ -34,9 +34,11 @@ test.describe('Validates simple form demo: ', async () => {
             capabilities['LT:Options'].platform = os;
             capabilities['LT:Options'].name = test.info().title;
 
-            // Connect to lambdatest and launch the browser
-            const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=
-            ${encodeURIComponent(JSON.stringify(capabilities))}`);
+            // ✅ Secure WebSocket Endpoint for LambdaTest
+            const wsEndpoint = `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`;
+            
+            // Connect to LambdaTest and launch the browser
+            const browser = await chromium.connect(wsEndpoint);
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -46,7 +48,7 @@ test.describe('Validates simple form demo: ', async () => {
             // Click simple form demo link
             await page.getByText('Simple Form Demo').click();
 
-            // Get the Url
+            // Get the URL
             const actualUrl = page.url();
             const expectedUrl = "simple-form-demo";
 
