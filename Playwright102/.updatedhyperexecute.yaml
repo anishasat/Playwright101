@@ -13,18 +13,18 @@ postDirectives:
     shell: ""
     workingDirectory: ""
 jobLabel:
-    - playwright-VanillaJS
+    - playwright-JestJS
     - win
     - autosplit
 runson: win
 autosplit: true
-concurrency: 3
+concurrency: 2
 testDiscovery:
     autosubset: true
-    command: grep -lr 'describe' tests
+    command: grep -lr 'describe' *.test.ts
     mode: dynamic
     type: raw
-testRunnerCommand: npx playwright test $test
+testRunnerCommand: npm test -- $test
 globalTimeout: 90
 tunnelOpts:
     testsPerTunnel: 10
@@ -33,8 +33,9 @@ testSuiteStep: 90
 cacheDirectories:
     - node_modules
 cacheKey: '{{ checksum "package-lock.json" }}'
+retryOnFailure: true
 maxRetries: 1
-jobID: fb40ec52-f0aa-4395-b182-0fa407baf187
+jobID: c859f528-e11b-45eb-911e-a3861b1d8ce2
 codeDirectory: Playwright102
 framework:
     name: ""
@@ -81,6 +82,7 @@ framework:
         networkHar: false
         artifacts: false
         otherApps: []
+        customData: {}
     additional_args: null
     licenseKey: ""
     userdefinediscovery: false
@@ -100,7 +102,7 @@ sourcePayload:
     verifySSL: true
 collectLocalGitData: true
 dynamicAllocation: false
-appium: false
+appium: null
 platformConfig: null
 differentialUpload:
     enabled: false
@@ -135,6 +137,10 @@ globalPre:
     workingDirectory: ""
     completed: false
     runson: ""
+    cache: false
+    yamlPath: null
+    type: ""
+    location: ""
 globalPost:
     mode: ""
     commands: []
